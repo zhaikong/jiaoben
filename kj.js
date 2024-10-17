@@ -31,38 +31,44 @@ const coursePeriod = '/course/getCoursePeriodList';
 const live = '/v2/live/getLiveDetails';
 
 if (url.indexOf(vip) != -1) {
-    obj.data.vipInfo.isVip = true;
-    obj.data.vipInfo.vipEndTime = "2099-12-31 23:59:59";
-    obj.data.vipInfo.vipLevel = 3;
-    obj.data.isVip = true;
-    obj.data.vipLevel = 3;
-    obj.data.vipEndTime = "2099-12-31 23:59:59";
-} else if (url.indexOf(course) != -1 || url.indexOf(coursePeriod) != -1 || url.indexOf(live) != -1) {
-    obj.data.isBuy = true;
-    obj.data.isVip = true;
-    obj.data.canWatch = true;
-    obj.data.isFree = true;
-    obj.data.isUnlock = true;
-    obj.data.isLock = false;
-    
-    if (obj.data.videoInfo) {
-        obj.data.videoInfo.canWatch = true;
-        obj.data.videoInfo.isLock = false;
-        obj.data.videoInfo.isBuy = true;
+    if (obj.data) {
+        obj.data.isVip = true;
+        obj.data.vipLevel = 3;
+        obj.data.vipEndTime = "2099-12-31 23:59:59";
+        if (obj.data.vipInfo) {
+            obj.data.vipInfo.isVip = true;
+            obj.data.vipInfo.vipEndTime = "2099-12-31 23:59:59";
+            obj.data.vipInfo.vipLevel = 3;
+        }
     }
-    
-    if (obj.data.periodList && Array.isArray(obj.data.periodList)) {
-        obj.data.periodList.forEach(period => {
-            period.isBuy = true;
-            period.canWatch = true;
-            period.isLock = false;
-            period.isFree = true;
-            if (period.videoInfo) {
-                period.videoInfo.canWatch = true;
-                period.videoInfo.isLock = false;
-                period.videoInfo.isBuy = true;
-            }
-        });
+} else if (url.indexOf(course) != -1 || url.indexOf(coursePeriod) != -1 || url.indexOf(live) != -1) {
+    if (obj.data) {
+        obj.data.isBuy = true;
+        obj.data.isVip = true;
+        obj.data.canWatch = true;
+        obj.data.isFree = true;
+        obj.data.isUnlock = true;
+        obj.data.isLock = false;
+        
+        if (obj.data.videoInfo) {
+            obj.data.videoInfo.canWatch = true;
+            obj.data.videoInfo.isLock = false;
+            obj.data.videoInfo.isBuy = true;
+        }
+        
+        if (obj.data.periodList && Array.isArray(obj.data.periodList)) {
+            obj.data.periodList.forEach(period => {
+                period.isBuy = true;
+                period.canWatch = true;
+                period.isLock = false;
+                period.isFree = true;
+                if (period.videoInfo) {
+                    period.videoInfo.canWatch = true;
+                    period.videoInfo.isLock = false;
+                    period.videoInfo.isBuy = true;
+                }
+            });
+        }
     }
 }
 
